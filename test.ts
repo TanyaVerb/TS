@@ -138,122 +138,304 @@ user = ["str", 32, false];
 
 // user[3]=false//er
 
-type Person = [name: string, age: number]; 
+type Person = [name: string, age: number];
 let tanya: Person = ["Tanya", 35];
-let tanya2:  = ["Tanya", 35];
+let tanya2: Person = ["Tanya", 35];
 
+let t1 = tanya[0];
+let t2 = tanya[1];
 
-let t1 = tanya[0]
-let t2 = tanya[1]
-
-const [name,age1] = tanya //деструктуризация
-
+// const [name, age1] = tanya; //деструктуризация
 
 //сужение типов
-function getUserName2(user:(string|number)[]){
-  user.forEach(el=>{
-    if (typeof el ==='string'){
-      el.toUpperCase()
-    }else{
-      el.toFixed()
+function getUserName2(user: (string | number)[]) {
+  user.forEach((el) => {
+    if (typeof el === "string") {
+      el.toUpperCase();
+    } else {
+      el.toFixed();
     }
-  })
+  });
 
-return name
+  return name;
 }
-function getUserName([name,age1]:Person){
-  
-return name
+function getUserName([name, age1]: Person) {
+  return name;
 }
 
-getUserName(tanya)
+getUserName(tanya);
 
 //==================================================================
-type Animal = 
-{
-   name:string,
-  voice: string,
-  wool:boolean,
-  
-}
-interface IAnimal{
-  name:string,
-  voice: string,
-  wool:boolean,
-  
+type Animal = {
+  name: string;
+  voice: string;
+  wool: boolean;
+};
+interface IAnimal {
+  name: string;
+  voice: string;
+  wool: boolean;
 }
 
-type TCat={
-climb:boolean
-}& Animal
+type TCat = {
+  climb: boolean;
+} & Animal;
 
-
-interface IDog extends Animal{
-friendly:boolean
+interface IDog extends Animal {
+  friendly: boolean;
 }
 
+const cat: TCat = {
+  name: "Murzik",
+  voice: "may",
+  wool: false,
+  climb: true,
+};
 
-const cat:TCat = {
-  name:'Murzik',
-  voice: 'may',
-  wool:false,
-  climb:true
-}
-
-
-
-
-const dog:IDog = {
-name:'Rex',
-voice: 'gav',
-wool:true,
- friendly:true,
-
-}
+const dog: IDog = {
+  name: "Rex",
+  voice: "gav",
+  wool: true,
+  friendly: true,
+};
 
 //type guard
-function isCat(pet:TCat|IDog):pet is TCat{
-  return (pet as TCat).climb !==undefined
-
+function isCat(pet: TCat | IDog): pet is TCat {
+  return (pet as TCat).climb !== undefined;
 }
 
-
-function isDog(pet:TCat|IDog):pet is IDog{
-  return (pet as IDog).friendly !==undefined
-
+function isDog(pet: TCat | IDog): pet is IDog {
+  return (pet as IDog).friendly !== undefined;
 }
 
-
-
-function playWithPet(pet:TCat|IDog){
-if (isDog(pet)){
-pet.friendly
- console.log('Играем с собакой');
- 
-  
-}else if  (isCat(pet)) {
-pet.climb
- console.log('Играем с котом');
- 
+function playWithPet(pet: TCat | IDog) {
+  if (isDog(pet)) {
+    pet.friendly;
+    console.log("Играем с собакой");
+  } else if (isCat(pet)) {
+    pet.climb;
+    console.log("Играем с котом");
+  } else {
+    let a: never;
+  }
 }
-else{
-  let a:never
-}}
 
-playWithPet(cat)
-playWithPet(dog)
+playWithPet(cat);
+playWithPet(dog);
 
 //******************************************************/
-const box = document.querySelector('.box') as HTMLElement
-box.textContent= 'some text'
+const box = document.querySelector(".box") as HTMLElement;
+box.textContent = "some text";
 
-const input =document.querySelector('input') as HTMLInputElement
-input.value
+const input = document.querySelector("input") as HTMLInputElement;
+input.value;
 
-const a =document.querySelector('a')  as HTMLAnchorElement
-const listA =document.querySelectorAll('a')  as NodeListOf <HTMLAnchorElement>
+const a = document.querySelector("a") as HTMLAnchorElement;
+const listA = document.querySelectorAll("a") as NodeListOf<HTMLAnchorElement>;
 
+// listA.forEach((el)=>{
 
-listA.forEach((el)=>{
+// })
 
-})
+//========================================================================
+//Деструктуризация типов
+
+interface TuserDataForLog {
+  isBirthday: boolean;
+  userName: string;
+  age: number;
+  extraKey: string;
+  message: {
+    text: string;
+  };
+  cars: ["bmw", "volvo"];
+}
+const userDataForLog: TuserDataForLog = {
+  isBirthday: true,
+  userName: "Tanya",
+  age: 35,
+  extraKey: "some text",
+  message: {
+    text: "error",
+  },
+  cars: ["bmw", "volvo"],
+};
+
+type TlogUser = (data: TuserDataForLog) => void;
+const copyLogUser: TlogUser = logUser;
+
+copyLogUser(userDataForLog);
+
+const copyLogUser2: TlogUser = function (data) {
+  console.log(data.cars[0]);
+};
+
+function logUser({
+  isBirthday,
+  userName,
+  age,
+  extraKey,
+  message: { text },
+  cars: [car1, car2],
+}: TuserDataForLog) {
+  console.log(isBirthday);
+  console.log(userName);
+  console.log(age);
+  console.log(extraKey);
+  console.log(text);
+  console.log(car1);
+  console.log(car2);
+}
+
+logUser(userDataForLog);
+
+type TServer = {
+  protocol: "http" | "https";
+  port: 3000 | 3001;
+  log: (msg: string) => void;
+};
+
+const server: TServer = {
+  protocol: "http", // 'https
+  port: 3000,
+  log(msg) {
+    console.log(msg); //строка
+  },
+};
+
+server.port;
+
+type TStartServer = (
+  protocol: TServer["protocol"],
+  server: TServer["port"],
+  log: TServer["log"]
+) => string;
+
+type TStartServer2 = (
+  protocol: "https" | "http",
+  server: number,
+  log: (msg: string) => void
+) => string;
+
+const startServer = (
+  protocol: "https" | "http",
+  server: number,
+  log: (msg: string) => void
+): string => {
+  console.log(`Server started on ${protocol}, server:${server}`);
+
+  return "Start server";
+};
+const startServer2: TStartServer = (protocol, server, log) => {
+  console.log(`Server started on ${protocol}, server:${server}`);
+
+  return "Start server";
+};
+
+startServer(server.protocol, server.port, server.log);
+
+//=============================================================
+interface TStyles {
+  [K: string]: string | number;
+}
+interface IStyles {
+  [K: string]: string | number;
+}
+
+const styles: IStyles = {
+  position: "relative",
+  top: "0",
+  left: "0",
+};
+
+//----------------
+interface ICompany {
+  name: string;
+  price: number;
+}
+
+type Tkeys = "name" | "price";
+type Tkeys2 = keyof ICompany;
+
+const keys: Tkeys = "name"; //price
+
+const conpanyData: ICompany = {
+  name: "Google",
+  price: 10000,
+};
+
+function getCompanyData(obj: ICompany, key: keyof ICompany) {
+  console.log(obj[key]);
+}
+
+getCompanyData(conpanyData, "name");
+
+//запросы типов
+const PI = 3.14;
+
+const clonePI: typeof PI = 3.14;
+
+const dataFromBd = {
+  water: 200,
+  el: 350,
+  price: "local",
+} as const;
+
+function checkData(data: typeof dataFromBd): boolean {
+  const dataFromUser = {
+    water: 200,
+    el: 350,
+  };
+
+  return dataFromUser.water === data.water && dataFromUser.el === data.water;
+}
+
+checkData(dataFromBd);
+
+// const totalData: TotalWarehouse = {
+//   jackets: 'empty',
+//   hats:  5,
+//   socks:6,
+//   pants:2,
+//   scissors: 8,
+//   paper:'empty',
+//   dishwashers: 8,
+//   cookers: 'empty'
+//   mixers:
+
+// }
+
+type ValidAmount = "empty" | number;
+
+interface ClothesWarehouse {
+  jackets: ValidAmount;
+  hats: ValidAmount;
+  socks: ValidAmount;
+  pants: ValidAmount;
+}
+
+interface StationeryWarehouse {
+  scissors: ValidAmount;
+  paper: "empty" | boolean;
+}
+
+interface AppliancesWarehouse {
+  dishwashers: ValidAmount;
+  cookers: ValidAmount;
+  mixers: ValidAmount;
+}
+
+interface TotalWarehouse
+  extends ClothesWarehouse,
+    StationeryWarehouse,
+    AppliancesWarehouse {
+  deficit: boolean;
+  date: Date;
+}
+
+function printReport(data: TotalWarehouse) {
+  //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
+  //если empty нет => выводим сообщение "Все в наличие"
+}
+
+// printReport(totalData)
