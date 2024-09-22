@@ -263,13 +263,17 @@ function printReport(data) {
         .filter(([key, value]) => value === "empty")
         .reduce((acc, [key, value]) => `${acc} ${key},`, "");
     if (result.trim().length) {
-        console.log(`Нужны следующие элементы одежды: ${result}`);
+        // console.log(`Нужны следующие элементы одежды: ${result}`);
+        return `Нужны следующие элементы одежды: ${result}`;
     }
     else {
-        console.log(`Все в наличие`);
+        // console.log(`Все в наличие`);
+        return `Все в наличие`;
     }
     //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
     //если empty нет => выводим сообщение "Все в наличие"
 }
-printReport(totalData);
-printReport(totalData2);
+let resultT = printReport(totalData);
+console.log(resultT);
+let resultT2 = printReport(totalData2);
+console.log(resultT2);
