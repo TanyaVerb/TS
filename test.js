@@ -102,7 +102,7 @@ let tanya = ["Tanya", 35];
 let tanya2 = ["Tanya", 35];
 let t1 = tanya[0];
 let t2 = tanya[1];
-const [name, age1] = tanya; //деструктуризация
+// const [name, age1] = tanya; //деструктуризация
 //сужение типов
 function getUserName2(user) {
     user.forEach((el) => {
@@ -172,8 +172,8 @@ const userDataForLog = {
 };
 const copyLogUser = logUser;
 copyLogUser(userDataForLog);
-const copyLogUser2 = function ({ age, cars: [car1], message: { text }, }) {
-    // console.log(data.cars[0]);
+const copyLogUser2 = function (data) {
+    console.log(data.cars[0]);
 };
 function logUser({ isBirthday, userName, age, extraKey, message: { text }, cars: [car1, car2], }) {
     console.log(isBirthday);
@@ -185,3 +185,91 @@ function logUser({ isBirthday, userName, age, extraKey, message: { text }, cars:
     console.log(car2);
 }
 logUser(userDataForLog);
+const server = {
+    protocol: "http", // 'https
+    port: 3000,
+    log(msg) {
+        console.log(msg); //строка
+    },
+};
+server.port;
+const startServer = (protocol, server, log) => {
+    console.log(`Server started on ${protocol}, server:${server}`);
+    return "Start server";
+};
+const startServer2 = (protocol, server, log) => {
+    console.log(`Server started on ${protocol}, server:${server}`);
+    return "Start server";
+};
+startServer(server.protocol, server.port, server.log);
+const styles = {
+    position: "relative",
+    top: "0",
+    left: "0",
+};
+const keys = "name"; //price
+const conpanyData = {
+    name: "Google",
+    price: 10000,
+};
+function getCompanyData(obj, key) {
+    console.log(obj[key]);
+}
+getCompanyData(conpanyData, "name");
+//запросы типов
+const PI = 3.14;
+const clonePI = 3.14;
+const dataFromBd = {
+    water: 200,
+    el: 350,
+    price: "local",
+};
+function checkData(data) {
+    const dataFromUser = {
+        water: 200,
+        el: 350,
+    };
+    return dataFromUser.water === data.water && dataFromUser.el === data.water;
+}
+checkData(dataFromBd);
+const totalData = {
+    jackets: "empty",
+    hats: 5,
+    socks: 6,
+    pants: 255,
+    scissors: 8,
+    paper: "empty",
+    dishwashers: 8,
+    cookers: "empty",
+    mixers: "empty",
+    deficit: true,
+    date: new Date(),
+};
+const totalData2 = {
+    jackets: 15,
+    hats: 5,
+    socks: 6,
+    pants: 255,
+    scissors: 8,
+    paper: true,
+    dishwashers: 8,
+    cookers: 15,
+    mixers: 17,
+    deficit: true,
+    date: new Date(),
+};
+function printReport(data) {
+    const result = Object.entries(data)
+        .filter(([key, value]) => value === "empty")
+        .reduce((acc, [key, value]) => `${acc} ${key},`, "");
+    if (result.trim().length) {
+        console.log(`Нужны следующие элементы одежды: ${result}`);
+    }
+    else {
+        console.log(`Все в наличие`);
+    }
+    //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
+    //если empty нет => выводим сообщение "Все в наличие"
+}
+printReport(totalData);
+printReport(totalData2);

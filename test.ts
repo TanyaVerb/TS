@@ -392,18 +392,32 @@ function checkData(data: typeof dataFromBd): boolean {
 
 checkData(dataFromBd);
 
-// const totalData: TotalWarehouse = {
-//   jackets: 'empty',
-//   hats:  5,
-//   socks:6,
-//   pants:2,
-//   scissors: 8,
-//   paper:'empty',
-//   dishwashers: 8,
-//   cookers: 'empty'
-//   mixers:
-
-// }
+const totalData: TotalWarehouse = {
+  jackets: "empty",
+  hats: 5,
+  socks: 6,
+  pants: 255,
+  scissors: 8,
+  paper: "empty",
+  dishwashers: 8,
+  cookers: "empty",
+  mixers: "empty",
+  deficit: true,
+  date: new Date(),
+};
+const totalData2: TotalWarehouse = {
+  jackets: 15,
+  hats: 5,
+  socks: 6,
+  pants: 255,
+  scissors: 8,
+  paper: true,
+  dishwashers: 8,
+  cookers: 15,
+  mixers: 17,
+  deficit: true,
+  date: new Date(),
+};
 
 type ValidAmount = "empty" | number;
 
@@ -433,9 +447,19 @@ interface TotalWarehouse
   date: Date;
 }
 
-function printReport(data: TotalWarehouse) {
+function printReport(data: TotalWarehouse): void {
+  const result = Object.entries(data)
+    .filter(([key, value]) => value === "empty")
+    .reduce((acc, [key, value]) => `${acc} ${key},`, "");
+  if (result.trim().length) {
+    console.log(`Нужны следующие элементы одежды: ${result}`);
+  } else {
+    console.log(`Все в наличие`);
+  }
+
   //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
   //если empty нет => выводим сообщение "Все в наличие"
 }
 
-// printReport(totalData)
+printReport(totalData);
+printReport(totalData2);
