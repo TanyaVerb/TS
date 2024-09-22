@@ -462,9 +462,26 @@ function printReport(data: TotalWarehouse): string {
   //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
   //если empty нет => выводим сообщение "Все в наличие"
 }
+function printReport2(data: TotalWarehouse): string {
+  const emptyItems = Object.entries(data)
+    .filter(([key, value]) => value === "empty")
+    .map(([key]) => key);
+  if (emptyItems.length > 0) {
+    // console.log(`Нужны следующие элементы одежды: ${result}`);
+    return `Нужны следующие элементы одежды: ${emptyItems.join(", ")}`;
+  } else {
+    // console.log(`Все в наличие`);
+    return `Все в наличие`;
+  }
+}
 
 let resultT = printReport(totalData);
 console.log(resultT);
 
 let resultT2 = printReport(totalData2);
+console.log(resultT2);
+let resultR = printReport2(totalData);
+console.log(resultT);
+
+let resultR2 = printReport2(totalData2);
 console.log(resultT2);
