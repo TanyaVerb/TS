@@ -258,27 +258,11 @@ const totalData2 = {
     deficit: true,
     date: new Date(),
 };
-function printReport(data) {
-    const result = Object.entries(data)
-        .filter(([key, value]) => value === "empty")
-        .reduce((acc, [key, value]) => `${acc} ${key},`, "");
-    if (result.trim().length) {
-        // console.log(`Нужны следующие элементы одежды: ${result}`);
-        return `Нужны следующие элементы одежды: ${result}`;
-    }
-    else {
-        // console.log(`Все в наличие`);
-        return `Все в наличие`;
-    }
-    //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
-    //если empty нет => выводим сообщение "Все в наличие"
-}
 function printReport2(data) {
     const emptyItems = Object.entries(data)
         .filter(([key, value]) => value === "empty")
         .map(([key]) => key);
     if (emptyItems.length > 0) {
-        // console.log(`Нужны следующие элементы одежды: ${result}`);
         return `Нужны следующие элементы одежды: ${emptyItems.join(", ")}`;
     }
     else {
@@ -286,11 +270,108 @@ function printReport2(data) {
         return `Все в наличие`;
     }
 }
-let resultT = printReport(totalData);
-console.log(resultT);
-let resultT2 = printReport(totalData2);
-console.log(resultT2);
-let resultR = printReport2(totalData);
-console.log(resultT);
-let resultR2 = printReport2(totalData2);
-console.log(resultT2);
+const dataObj = {
+    key1: "value1",
+    key2: "value2",
+    key3: "value3",
+    // key4: "value3",
+};
+const data3 = [
+    ["key1", 2],
+    ["key2", "value2"],
+    ["key3", false],
+];
+const data = [
+    ["key1", "value1"],
+    ["key1", "value1"],
+    ["key1", "value1"],
+];
+const data4 = Object.entries(dataObj);
+const data2 = Object.entries(dataObj);
+const totalData3 = {
+    jackets: 15,
+    hats: 5,
+    socks: 6,
+    pants: 255,
+    scissors: 8,
+    paper: "empty",
+    dishwashers: "empty",
+    cookers: "empty",
+    mixers: 17,
+    deficit: true,
+    date: new Date(),
+};
+function printReport3(data) {
+    let result = Object.entries(data)
+        // [['cookers', 'empty'], ['hats', 5]]
+        .filter(([key, value]) => value === "empty")
+        .reduce((acc, [key, value]) => `${acc} ${key},`, "");
+    if (result.trim().length) {
+        return `Нужны следующие элементы одежды: ${result.slice(0, -1)}!`;
+    }
+    else {
+        return "Все в наличии";
+    }
+    //   .filter(([key, value]) => value === "empty")
+    //   .reduce((acc, [key, value]) => `${acc} ${key}, `, "")
+    //   .trim();
+    // if (result.length > 0) {
+    //   let result2 = result.slice(0, -1);
+    //   return `Нужны следующие элементы одежды: ${result2}!`;
+    // } else {
+    //   return "Все в наличии";
+    // }
+}
+printReport3(totalData3);
+let list = printReport3(totalData3);
+console.log(list);
+//==================константы enams=======================
+// enum STATUS {
+//     ERROR,//0
+//     SUCCES,//1
+//     PROCESSING//2
+// }
+// console.log(STATUS.ERROR===0)
+// console.log(STATUS[1])
+// enum STATUS2 {
+//     ERROR ='ERROR',//0
+//     SUCCES = 'SUCCES',//1
+//     PROCESSING ='PROCESSING'//2
+// }
+// console.log(STATUS2.ERROR)
+//console.log(STATUS2[2]) Ошибка
+var DIRECTION;
+(function (DIRECTION) {
+    DIRECTION["TOP"] = "TOP";
+    DIRECTION["LEFT"] = "LEFT";
+    DIRECTION["BOTTOM"] = "BOTTOM";
+    DIRECTION["RIGHT"] = "RIGHT";
+})(DIRECTION || (DIRECTION = {}));
+function startAnimation(direction) {
+    if (direction === DIRECTION.TOP) {
+    }
+    switch (direction) {
+        case DIRECTION.BOTTOM:
+        case "TOP":
+    }
+}
+startAnimation(DIRECTION.BOTTOM);
+//Дженерики-шаблоны========================================================
+function processingData2(data) {
+    return data;
+}
+const processingData3 = (data) => {
+    return data;
+};
+let res2 = processingData2(2);
+let res3 = processingData2("2");
+const someResponse = {
+    isValid: true,
+    status: "ok",
+};
+const someResponse2 = {
+    isValid: "true",
+    status: 2,
+};
+const arr = [];
+//arr.map()// встроенный дженерик

@@ -447,27 +447,11 @@ interface TotalWarehouse
   date: Date;
 }
 
-function printReport(data: TotalWarehouse): string {
-  const result = Object.entries(data)
-    .filter(([key, value]) => value === "empty")
-    .reduce((acc, [key, value]) => `${acc} ${key},`, "");
-  if (result.trim().length) {
-    // console.log(`Нужны следующие элементы одежды: ${result}`);
-    return `Нужны следующие элементы одежды: ${result}`;
-  } else {
-    // console.log(`Все в наличие`);
-    return `Все в наличие`;
-  }
-
-  //если есть empty => выводим сообщение, что "Нужны следующие элементы одежды: ..."
-  //если empty нет => выводим сообщение "Все в наличие"
-}
 function printReport2(data: TotalWarehouse): string {
   const emptyItems = Object.entries(data)
     .filter(([key, value]) => value === "empty")
     .map(([key]) => key);
   if (emptyItems.length > 0) {
-    // console.log(`Нужны следующие элементы одежды: ${result}`);
     return `Нужны следующие элементы одежды: ${emptyItems.join(", ")}`;
   } else {
     // console.log(`Все в наличие`);
@@ -475,13 +459,175 @@ function printReport2(data: TotalWarehouse): string {
   }
 }
 
-let resultT = printReport(totalData);
-console.log(resultT);
+// let resultT = printReport(totalData);
+// console.log(resultT);
 
-let resultT2 = printReport(totalData2);
-console.log(resultT2);
-let resultR = printReport2(totalData);
-console.log(resultT);
+// let resultR = printReport2(totalData);
+// console.log(resultT);
 
-let resultR2 = printReport2(totalData2);
-console.log(resultT2);
+// let resultR2 = printReport2(totalData2);
+// console.log(resultT2);
+interface IObj {
+  [K: string]: string; //одинаковые ключи (строки)
+}
+
+type TObj = {
+  key1: number;
+  key2: string;
+  key3: boolean;
+};
+
+type TDadaObj2 = {
+  [k: string]: string;
+};
+const dataObj: IObj = {
+  key1: "value1",
+  key2: "value2",
+  key3: "value3",
+  // key4: "value3",
+};
+
+type TData = string[][];
+
+type TData2 = [string, string][];
+
+//type Test = 'key1'|'key2'|'key3'
+type TData1 = [keyof TObj, TObj[keyof TObj]][];
+
+type Test = TObj[keyof TObj];
+
+const data3: TData1 = [
+  ["key1", 2],
+  ["key2", "value2"],
+  ["key3", false],
+];
+
+const data: [string, string | number | boolean][] = [
+  ["key1", "value1"],
+  ["key1", "value1"],
+  ["key1", "value1"],
+];
+
+const data4: TData1 = Object.entries(dataObj) as TData1;
+const data2: [string, string | number | boolean][] = Object.entries(dataObj);
+
+const totalData3: TotalWarehouse = {
+  jackets: 15,
+  hats: 5,
+  socks: 6,
+  pants: 255,
+  scissors: 8,
+  paper: "empty",
+  dishwashers: "empty",
+  cookers: "empty",
+  mixers: 17,
+  deficit: true,
+  date: new Date(),
+};
+
+function printReport3(data: TotalWarehouse): string {
+  let result: string = (
+    Object.entries(data) as [
+      [keyof TotalWarehouse, TotalWarehouse[keyof TotalWarehouse]]
+    ]
+  )
+
+    // [['cookers', 'empty'], ['hats', 5]]
+    .filter(([key, value]) => value === "empty")
+    .reduce((acc, [key, value]) => `${acc} ${key},`, "");
+  if (result.trim().length) {
+    return `Нужны следующие элементы одежды: ${result.slice(0, -1)}!`;
+  } else {
+    return "Все в наличии";
+  }
+
+  //   .filter(([key, value]) => value === "empty")
+  //   .reduce((acc, [key, value]) => `${acc} ${key}, `, "")
+  //   .trim();
+  // if (result.length > 0) {
+  //   let result2 = result.slice(0, -1);
+  //   return `Нужны следующие элементы одежды: ${result2}!`;
+  // } else {
+  //   return "Все в наличии";
+  // }
+}
+
+printReport3(totalData3);
+
+let list = printReport3(totalData3);
+console.log(list);
+
+//==================константы enams=======================
+// enum STATUS {
+//     ERROR,//0
+//     SUCCES,//1
+//     PROCESSING//2
+// }
+
+// console.log(STATUS.ERROR===0)
+// console.log(STATUS[1])
+
+// enum STATUS2 {
+//     ERROR ='ERROR',//0
+//     SUCCES = 'SUCCES',//1
+//     PROCESSING ='PROCESSING'//2
+// }
+// console.log(STATUS2.ERROR)
+//console.log(STATUS2[2]) Ошибка
+
+enum DIRECTION {
+  TOP = "TOP",
+  LEFT = "LEFT",
+  BOTTOM = "BOTTOM",
+  RIGHT = "RIGHT",
+}
+
+function startAnimation(direction: DIRECTION): void {
+  if (direction === DIRECTION.TOP) {
+  }
+  switch (direction) {
+    case DIRECTION.BOTTOM:
+    case "TOP":
+  }
+}
+startAnimation(DIRECTION.BOTTOM);
+
+//Дженерики-шаблоны========================================================
+
+function processingData2<T>(data: T): T {
+  return data;
+}
+
+const processingData3 = <T>(data: T): T => {
+  return data;
+};
+
+let res2 = processingData2<number>(2);
+let res3 = processingData2<string>("2");
+
+type TSomeResponse = {
+  isValid: boolean;
+};
+type TSomeResponse2 = {
+  isValid: string;
+};
+
+type TSomeResponse3<T> = {
+  isValid: T;
+};
+interface TSomeResponse4<T, S> {
+  isValid: T;
+  status: S;
+}
+
+const someResponse: TSomeResponse4<boolean, string> = {
+  isValid: true,
+  status: "ok",
+};
+const someResponse2: TSomeResponse4<string, number> = {
+  isValid: "true",
+  status: 2,
+};
+
+const arr: Array<string> = [];
+//arr.map()// встроенный дженерик
